@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <title>Aplikasi Pembayaran BPJS</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 30px;
+      background: #f7f7f7;
+    }
+    h1 {
+      text-align: center;
+    }
+    form {
+      margin-bottom: 20px;
+      display: flex;
+      gap: 10px;
+    }
+    input, select, button {
+      padding: 8px;
+      font-size: 16px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: white;
+    }
+    th, td {
+      border: 1px solid #ccc;
+      padding: 10px;
+      text-align: center;
+    }
+    .Terbayar { background-color: #d4edda; }
+    .Pending { background-color: #fff3cd; }
+    .Dispute { background-color: #f8d7da; }
+    .TidakLayak { background-color: #e2e3e5; }
+    .Readmisi { background-color: #d1ecf1; }
+  </style>
+</head>
+<body>
+  <h1>Aplikasi Pembayaran Pasien BPJS</h1>
+  <form id="formPasien">
+    <input type="text" id="namaPasien" placeholder="Nama Pasien" required />
+    <select id="statusPembayaran">
+      <option value="Terbayar">Terbayar</option>
+      <option value="Pending">Pending</option>
+      <option value="Dispute">Dispute</option>
+      <option value="TidakLayak">Tidak Layak</option>
+      <option value="Readmisi">Readmisi</option>
+    </select>
+    <button type="submit">Tambah</button>
+  </form>
+
+  <table>
+    <thead>
+      <tr>
+        <th>No</th>
+        <th>Nama Pasien</th>
+        <th>Status Pembayaran</th>
+      </tr>
+    </thead>
+    <tbody id="tabelPasien">
+    </tbody>
+  </table>
+
+  <script>
+    const form = document.getElementById('formPasien');
+    const tabel = document.getElementById('tabelPasien');
+    let data = [];
+
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+      const nama = document.getElementById('namaPasien').value.trim();
+      const status = document.getElementById('statusPembayaran').value;
+
+      if (nama !== '') {
+        data.push({ nama, status });
+        tampilkanData();
+        form.reset();
+      }
+    });
+
+    function tampilkanData() {
+      tabel.innerHTML = '';
+      data.forEach((item, index) => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td>${index + 1}</td>
+          <td>${item.nama}</td>
+          <td class="${item.status.replace(/\s/g, '')}">${item.status}</td>
+        `;
+        tabel.appendChild(tr);
+      });
+    }
+  </script>
+</body>
+</html>
